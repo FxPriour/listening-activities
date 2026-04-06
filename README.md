@@ -3,7 +3,7 @@
 **Interactive oral comprehension exercises for French learners of English**  
 **Activités interactives de compréhension orale pour apprenants francophones**
 
-🔗 **[Open the activity hub · Accéder aux activités](https://fxpriour.github.io/listening-activities/)**
+🔗 **[fxpriour.github.io/listening-activities](https://fxpriour.github.io/listening-activities/)**
 
 ---
 
@@ -42,5 +42,7 @@ Activités HTML autonomes pour apprenants de niveau A2–B1. Aucune installation
 ## About · À propos
 
 **François-Xavier Priour** — certified English instructor (CAPES), bilingual EN/FR translator, Moodle-certified (Admin + Teacher, Moodle HQ 2020). Teaching at French universities and professional training organisations since 2013.
+
+*Enseignant certifié (CAPES), traducteur bilingue EN/FR, certifié Moodle HQ (administrateur + enseignant, 2020). Enseignement universitaire et formation professionnelle depuis 2013.*
 
 [github.com/FxPriour](https://github.com/FxPriour) · [linkedin.com/in/fxpriour](https://linkedin.com/in/fxpriour) · [chessmultitudes.substack.com](https://chessmultitudes.substack.com)
