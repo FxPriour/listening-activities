@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Big Bang Theory — Oral Comprehension</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F4EF;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE7;
+    --accent: #1A3A5C;
+    --accent2: #C8501A;
+    --accent3: #2E7D52;
+    --text: #1C1C1C;
+    --text2: #555555;
+    --text3: #888888;
+    --border: #DDDAD4;
+    --correct: #2E7D52;
+    --correct-bg: #EAF3EC;
+    --wrong: #B83B2A;
+    --wrong-bg: #FAECEA;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    background: var(--accent);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.04em;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: var(--accent2);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* ─── Progress bar ─── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.15);
+    height: 3px;
+  }
+  .progress-bar-fill {
+    height: 3px;
+    background: var(--accent2);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── Layout ─── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ─── Intro card ─── */
+  .intro-card {
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .intro-card::after {
+    content: '';
+    position: absolute;
+    right: 40px; bottom: -60px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(200,80,26,0.2);
+  }
+  .intro-card h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .intro-card .subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .intro-card p {
+    font-size: 15px;
+    opacity: 0.9;
+    line-height: 1.7;
+    position: relative;
+    max-width: 620px;
+  }
+  .intro-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    position: relative;
+  }
+  .intro-tag {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── Section ─── */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .section-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .section-instruction {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    margin-left: 50px;
+    font-style: italic;
+  }
+
+  /* ─── Card ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  /* ─── T/F ─── */
+  .tf-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .tf-row:last-child { border-bottom: none; }
+  .tf-row.correct-row { background: var(--correct-bg); }
+  .tf-row.wrong-row { background: var(--wrong-bg); }
+  .tf-num { font-size: 13px; color: var(--text3); font-weight: 500; }
+  .tf-text { font-size: 15px; line-height: 1.5; }
+  .tf-btn {
+    padding: 6px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text2);
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .tf-btn:hover:not(:disabled) { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .tf-btn.is-correct { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+  .tf-btn.is-wrong { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+  .tf-btn.show-answer { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+  .tf-btn:disabled { cursor: default; }
+
+  /* ─── MCQ ─── */
+  .mcq-block {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mcq-block:last-child { border-bottom: none; }
+  .mcq-q { font-size: 15px; font-weight: 500; margin-bottom: 12px; }
+  .mcq-opts { display: flex; flex-direction: column; gap: 8px; }
+  .mcq-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.18s;
+    line-height: 1.5;
+  }
+  .mcq-opt:hover:not(:disabled) { background: var(--surface2); border-color: var(--accent); }
+  .mcq-opt.is-correct { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+  .mcq-opt.is-wrong { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+  .mcq-opt.show-answer { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+  .mcq-opt:disabled { cursor: default; }
+  .opt-letter { font-weight: 700; min-width: 20px; flex-shrink: 0; opacity: 0.5; }
+  .mcq-opt.is-correct .opt-letter,
+  .mcq-opt.is-wrong .opt-letter,
+  .mcq-opt.show-answer .opt-letter { opacity: 1; }
+
+  /* ─── Gap fill ─── */
+  .gap-block { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 0; flex-wrap: wrap; font-size: 15px; line-height: 2; }
+  .gap-block:last-child { border-bottom: none; }
+  .gap-num { color: var(--text3); font-weight: 500; font-size: 13px; margin-right: 10px; white-space: nowrap; }
+  .gap-input {
+    border: none;
+    border-bottom: 2px solid var(--border);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    padding: 0 6px;
+    width: 150px;
+    outline: none;
+    margin: 0 4px;
+    transition: border-color 0.2s;
+    text-align: center;
+  }
+  .gap-input:focus { border-bottom-color: var(--accent); }
+  .gap-input.is-correct { border-bottom-color: var(--correct); color: var(--correct); font-weight: 600; }
+  .gap-input.is-wrong { border-bottom-color: var(--wrong); color: var(--wrong); }
+
+  /* ─── Order ─── */
+  .order-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .order-row:last-child { border-bottom: none; }
+  .order-row.is-correct { background: var(--correct-bg); }
+  .order-row.is-wrong { background: var(--wrong-bg); }
+  .order-select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+  }
+  .order-select:focus { border-color: var(--accent); }
+  .order-text { font-size: 14px; line-height: 1.5; }
+
+  /* ─── Short answer ─── */
+  .short-block { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .short-block:last-child { border-bottom: none; }
+  .short-q { font-size: 15px; font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+  .short-q-num { color: var(--accent2); font-family: 'DM Serif Display', serif; margin-right: 6px; }
+  textarea.short-ans {
+    width: 100%;
+    min-height: 80px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface2);
+    padding: 10px 14px;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+  }
+  textarea.short-ans:focus { border-color: var(--accent); background: #fff; }
+  .btn-reveal {
+    padding: 6px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text2);
+    transition: all 0.18s;
+  }
+  .btn-reveal:hover { background: var(--surface2); border-color: var(--text2); }
+  .model-ans {
+    display: none;
+    margin-top: 12px;
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .model-ans strong { font-style: normal; color: var(--accent); font-weight: 600; }
+
+  /* ─── Check button ─── */
+  .btn-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.12s;
+    letter-spacing: 0.02em;
+  }
+  .btn-check:hover { background: #254E7A; }
+  .btn-check:active { transform: scale(0.97); }
+
+  /* ─── Score chip ─── */
+  .score-chip {
+    display: none;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text2);
+  }
+  .score-chip span { color: var(--accent); font-weight: 700; }
+
+  /* ─── Final score ─── */
+  .final-block {
+    background: var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    color: #fff;
+    text-align: center;
+    margin-top: 48px;
+    display: none;
+  }
+  .final-block h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .final-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--accent2);
+    margin: 12px 0;
+  }
+  .final-sub { font-size: 15px; opacity: 0.75; }
+  .final-msg { margin-top: 16px; font-size: 15px; opacity: 0.9; }
+
+  /* ─── Feedback icon ─── */
+  .icon { font-style: normal; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 600px) {
+    .page { padding: 24px 16px 60px; }
+    .intro-card { padding: 24px 20px; }
+    .intro-card h1 { font-size: 22px; }
+    .tf-row { grid-template-columns: 20px 1fr; grid-template-rows: auto auto; }
+    .tf-btns-cell { grid-column: 2; }
+    .order-row { grid-template-columns: 100px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">The Big Bang Theory — S01E01</div>
+      <div class="header-sub">Oral Comprehension Activity</div>
+    </div>
+    <div class="header-badge">A2–B1</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- Intro -->
+  <div class="intro-card">
+    <h1>Before you watch</h1>
+    <div class="subtitle">First 4 minutes · Subtitles #1–76</div>
+    <p>You are going to watch the first four minutes of the pilot episode of <em>The Big Bang Theory</em>, an American sitcom. Two scientists, <strong>Sheldon</strong> and <strong>Leonard</strong>, are roommates. Read all the questions carefully before pressing play.</p>
+    <div class="intro-tags">
+      <span class="intro-tag">5 exercises</span>
+      <span class="intro-tag">32 points</span>
+      <span class="intro-tag">Instant feedback</span>
+    </div>
+  </div>
+
+  <!-- ─── EX 1 ─── -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">True or False?</div>
+    </div>
+    <div class="section-instruction">Tick the correct box for each statement. You get instant feedback.</div>
+    <div class="card">
+      <div class="tf-row" id="tf1">
+        <div class="tf-num">1</div>
+        <div class="tf-text">Sheldon and Leonard are at a hospital when the episode begins.</div>
+        <button class="tf-btn" onclick="checkTF('tf1','F','T')">True</button>
+        <button class="tf-btn" onclick="checkTF('tf1','F','F')">False</button>
+      </div>
+      <div class="tf-row" id="tf2">
+        <div class="tf-num">2</div>
+        <div class="tf-text">The two men live in the same apartment building.</div>
+        <button class="tf-btn" onclick="checkTF('tf2','T','T')">True</button>
+        <button class="tf-btn" onclick="checkTF('tf2','T','F')">False</button>
+      </div>
+      <div class="tf-row" id="tf3">
+        <div class="tf-num">3</div>
+        <div class="tf-text">Sheldon wants to stay at the sperm bank.</div>
+        <button class="tf-btn" onclick="checkTF('tf3','F','T')">True</button>
+        <button class="tf-btn" onclick="checkTF('tf3','F','F')">False</button>
+      </div>
+      <div class="tf-row" id="tf4">
+        <div class="tf-num">4</div>
+        <div class="tf-text">Their new neighbour's name is Penny.</div>
+        <button class="tf-btn" onclick="checkTF('tf4','T','T')">True</button>
+        <button class="tf-btn" onclick="checkTF('tf4','T','F')">False</button>
+      </div>
+      <div class="tf-row" id="tf5">
+        <div class="tf-num">5</div>
+        <div class="tf-text">Leonard and Sheldon share a bedroom.</div>
+        <button class="tf-btn" onclick="checkTF('tf5','F','T')">True</button>
+        <button class="tf-btn" onclick="checkTF('tf5','F','F')">False</button>
+      </div>
+    </div>
+    <div class="score-chip" id="sc1">Score: <span id="sc1v">0/5</span></div>
+  </div>
+
+  <!-- ─── EX 2 ─── -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Multiple Choice</div>
+    </div>
+    <div class="section-instruction">Choose the correct answer — only one is right.</div>
+    <div class="card">
+
+      <div class="mcq-block">
+        <div class="mcq-q">1. Why did Leonard and Sheldon go to the sperm bank?</div>
+        <div class="mcq-opts">
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a</span> They are doctors working there.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">b</span> They wanted to earn extra money.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">c</span> They were visiting a friend.</button>
+        </div>
+      </div>
+
+      <div class="mcq-block">
+        <div class="mcq-q">2. What does Sheldon say about his sister?</div>
+        <div class="mcq-opts">
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a</span> She is a scientist like him.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">b</span> She lives in another country.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">c</span> She has similar DNA but is not very intellectual.</button>
+        </div>
+      </div>
+
+      <div class="mcq-block">
+        <div class="mcq-q">3. Why does Sheldon know about stairs?</div>
+        <div class="mcq-opts">
+          <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">a</span> He did experiments on stairs when he was young.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">b</span> He read about it in a book.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">c</span> He repaired stairs in his building.</button>
+        </div>
+      </div>
+
+      <div class="mcq-block">
+        <div class="mcq-q">4. Why was Sheldon sent to boarding school?</div>
+        <div class="mcq-opts">
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a</span> Because of his stair experiments.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">b</span> Because he had poor grades.</button>
+          <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">c</span> Because of his work with lasers.</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="score-chip" id="sc2">Score: <span id="sc2v">0/4</span></div>
+  </div>
+
+  <!-- ─── EX 3 ─── -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Fill in the Gaps</div>
+    </div>
+    <div class="section-instruction">Complete each sentence with a word or phrase from the video, then click Check.</div>
+    <div class="card" id="ex3card">
+      <div class="gap-block">
+        <span class="gap-num">1.</span>
+        <span>Sheldon says there is no</span>
+        <input class="gap-input" id="g1" placeholder="…">
+        <span>that their sperm will produce high-IQ children.</span>
+      </div>
+      <div class="gap-block">
+        <span class="gap-num">2.</span>
+        <span>The two men want faster</span>
+        <input class="gap-input" id="g2" placeholder="…">
+        <span>in their apartment.</span>
+      </div>
+      <div class="gap-block">
+        <span class="gap-num">3.</span>
+        <span>If a step is off by as little as two</span>
+        <input class="gap-input" id="g3" placeholder="…">
+        <span>, most people will trip.</span>
+      </div>
+      <div class="gap-block">
+        <span class="gap-num">4.</span>
+        <span>Penny suggests they could have</span>
+        <input class="gap-input" id="g4" placeholder="…">
+        <span>sometime.</span>
+      </div>
+      <div class="gap-block">
+        <span class="gap-num">5.</span>
+        <span>Sheldon broke his father's</span>
+        <input class="gap-input" id="g5" placeholder="…">
+        <span>during his stair experiments.</span>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkGaps()">Check answers</button>
+    <div class="score-chip" id="sc3">Score: <span id="sc3v">0/5</span></div>
+  </div>
+
+  <!-- ─── EX 4 ─── -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Put the Events in Order</div>
+    </div>
+    <div class="section-instruction">Number the events from 1 (first) to 6 (last). Then click Check.</div>
+    <div class="card" id="ex4card">
+      <div class="order-row" data-correct="4">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Leonard and Sheldon meet their new neighbour in the hallway.</div>
+      </div>
+      <div class="order-row" data-correct="2">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Sheldon says he wants to leave the sperm bank.</div>
+      </div>
+      <div class="order-row" data-correct="1">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Sheldon and Leonard discuss a physics idea at the reception desk.</div>
+      </div>
+      <div class="order-row" data-correct="6">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Penny suggests having coffee together.</div>
+      </div>
+      <div class="order-row" data-correct="5">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Leonard clarifies that he and Sheldon have separate bedrooms.</div>
+      </div>
+      <div class="order-row" data-correct="3">
+        <select class="order-select"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="order-text">Sheldon talks about his stair experiments on the way home.</div>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkOrder()">Check answers</button>
+    <div class="score-chip" id="sc4">Score: <span id="sc4v">0/6</span></div>
+  </div>
+
+  <!-- ─── EX 5 ─── -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Short Answer Questions</div>
+    </div>
+    <div class="section-instruction">Write 1–2 sentences in English. Then reveal the suggested answer to compare.</div>
+    <div class="card">
+
+      <div class="short-block">
+        <div class="short-q"><span class="short-q-num">1.</span> What do we learn about Sheldon's personality in these four minutes? Give two examples from the video.</div>
+        <textarea class="short-ans" placeholder="Write your answer here…"></textarea>
+        <button class="btn-reveal" onclick="toggleModel(this)">Show suggested answer ▾</button>
+        <div class="model-ans"><strong>Suggested answer:</strong> Sheldon is extremely intelligent but has very poor social awareness. For example, he lectures Leonard about stairs even though Leonard says "I don't care" — and he says he wouldn't love a child who couldn't solve calculus problems.</div>
+      </div>
+
+      <div class="short-block">
+        <div class="short-q"><span class="short-q-num">2.</span> How does Leonard react when Sheldon wants to leave? What does this tell us about their relationship?</div>
+        <textarea class="short-ans" placeholder="Write your answer here…"></textarea>
+        <button class="btn-reveal" onclick="toggleModel(this)">Show suggested answer ▾</button>
+        <div class="model-ans"><strong>Suggested answer:</strong> Leonard agrees quickly and without much argument. This suggests that he is used to going along with Sheldon's decisions — Sheldon tends to be the dominant one in their friendship.</div>
+      </div>
+
+      <div class="short-block">
+        <div class="short-q"><span class="short-q-num">3.</span> Why is the meeting with Penny funny or awkward? Describe what happens.</div>
+        <textarea class="short-ans" placeholder="Write your answer here…"></textarea>
+        <button class="btn-reveal" onclick="toggleModel(this)">Show suggested answer ▾</button>
+        <div class="model-ans"><strong>Suggested answer:</strong> It is awkward because the two men keep repeating "Hi" to each other, and then Leonard nervously explains that they sleep in separate bedrooms — something Penny never asked about. It shows that they are not comfortable in social situations, especially with someone they find attractive.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── Final score ─── -->
+  <div class="final-block" id="finalBlock">
+    <h2>Activity complete!</h2>
+    <div class="final-num" id="finalNum">—</div>
+    <div class="final-sub">out of 20 checkable points</div>
+    <div class="final-msg" id="finalMsg"></div>
+  </div>
+
+</main>
+
+<script>
+  // ─── Intersection observer for animations ───
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+  // ─── Score tracking ───
+  const scores = { tf: 0, mcq: 0, gap: 0, order: 0 };
+  const tfAnswered = {};
+  const mcqAnswered = {};
+  let gapChecked = false;
+  let orderChecked = false;
+
+  function updateProgress() {
+    const total = scores.tf + scores.mcq + scores.gap + scores.order;
+    const max = 20;
+    document.getElementById('progressBar').style.width = Math.round(total / max * 100) + '%';
+    const allDone = Object.keys(tfAnswered).length === 5 && Object.keys(mcqAnswered).length === 4 && gapChecked && orderChecked;
+    if (allDone) showFinal(total);
+  }
+
+  // ─── TF ───
+  function checkTF(rowId, correct, chosen) {
+    if (tfAnswered[rowId]) return;
+    tfAnswered[rowId] = true;
+    const row = document.getElementById(rowId);
+    const btns = row.querySelectorAll('.tf-btn');
+    btns.forEach(b => b.disabled = true);
+    const isRight = chosen === correct;
+    if (isRight) {
+      scores.tf++;
+      row.classList.add('correct-row');
+      event.target.classList.add('is-correct');
+    } else {
+      row.classList.add('wrong-row');
+      event.target.classList.add('is-wrong');
+      btns.forEach(b => {
+        if ((b.textContent.trim() === 'True' && correct === 'T') || (b.textContent.trim() === 'False' && correct === 'F'))
+          b.classList.add('show-answer');
+      });
+    }
+    const answered = Object.keys(tfAnswered).length;
+    document.getElementById('sc1').style.display = 'block';
+    document.getElementById('sc1v').textContent = scores.tf + '/' + answered;
+    updateProgress();
+  }
+
+  // ─── MCQ ───
+  function checkMCQ(btn, result) {
+    const block = btn.closest('.mcq-block');
+    if (block.dataset.answered) return;
+    block.dataset.answered = '1';
+    const blockIdx = [...document.querySelectorAll('.mcq-block')].indexOf(block);
+    mcqAnswered[blockIdx] = true;
+    block.querySelectorAll('.mcq-opt').forEach(b => b.disabled = true);
+    if (result === 'correct') {
+      btn.classList.add('is-correct');
+      scores.mcq++;
+    } else {
+      btn.classList.add('is-wrong');
+      block.querySelectorAll('.mcq-opt').forEach(b => {
+        if (b.getAttribute('onclick').includes("'correct'")) b.classList.add('show-answer');
+      });
+    }
+    const answered = Object.keys(mcqAnswered).length;
+    document.getElementById('sc2').style.display = 'block';
+    document.getElementById('sc2v').textContent = scores.mcq + '/' + answered;
+    updateProgress();
+  }
+
+  // ─── Gap fill ───
+  const gapData = {
+    g1: ['guarantee'],
+    g2: ['downloads', 'internet', 'bandwidth', 'download'],
+    g3: ['millimeters', 'millimetres', 'mm', 'millimeter', 'millimetre'],
+    g4: ['coffee'],
+    g5: ['clavicle', 'collarbone', 'collar bone']
+  };
+
+  function checkGaps() {
+    if (gapChecked) return;
+    gapChecked = true;
+    let correct = 0;
+    Object.entries(gapData).forEach(([id, accepted]) => {
+      const inp = document.getElementById(id);
+      const val = inp.value.trim().toLowerCase();
+      inp.disabled = true;
+      if (accepted.some(a => val === a)) {
+        inp.classList.add('is-correct');
+        correct++;
+      } else {
+        inp.classList.add('is-wrong');
+        inp.placeholder = accepted[0];
+      }
+    });
+    scores.gap = correct;
+    document.getElementById('sc3').style.display = 'block';
+    document.getElementById('sc3v').textContent = correct + '/5';
+    updateProgress();
+  }
+
+  // ─── Order ───
+  function checkOrder() {
+    if (orderChecked) return;
+    orderChecked = true;
+    let correct = 0;
+    document.querySelectorAll('#ex4card .order-row').forEach(row => {
+      const sel = row.querySelector('.order-select');
+      const chosen = parseInt(sel.value);
+      const expected = parseInt(row.dataset.correct);
+      sel.disabled = true;
+      row.classList.remove('is-correct', 'is-wrong');
+      if (chosen === expected) { row.classList.add('is-correct'); correct++; }
+      else { row.classList.add('is-wrong'); }
+    });
+    scores.order = correct;
+    document.getElementById('sc4').style.display = 'block';
+    document.getElementById('sc4v').textContent = correct + '/6';
+    updateProgress();
+  }
+
+  // ─── Short answer reveal ───
+  function toggleModel(btn) {
+    const ans = btn.nextElementSibling;
+    if (ans.style.display === 'block') {
+      ans.style.display = 'none';
+      btn.textContent = 'Show suggested answer ▾';
+    } else {
+      ans.style.display = 'block';
+      btn.textContent = 'Hide suggested answer ▴';
+    }
+  }
+
+  // ─── Final score ───
+  function showFinal(total) {
+    const block = document.getElementById('finalBlock');
+    if (block.style.display === 'flex') return;
+    block.style.display = 'block';
+    document.getElementById('finalNum').textContent = total + '/20';
+    const pct = total / 20;
+    let msg = '';
+    if (pct >= 0.9) msg = 'Excellent work! You understood almost everything. 🎉';
+    else if (pct >= 0.7) msg = 'Very good! You understood the main events and details well.';
+    else if (pct >= 0.5) msg = 'Good effort! Watch the video again and check the tricky parts.';
+    else msg = 'Keep going — try watching the video a second time with subtitles.';
+    document.getElementById('finalMsg').textContent = msg;
+    block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+</body>
+</html>

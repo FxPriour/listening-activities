@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Byronic Hero — Oral Comprehension</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1410;
+    --surface: #231d17;
+    --surface2: #2d2520;
+    --accent: #c9a96e;
+    --accent2: #8b1a1a;
+    --accent3: #4a7c59;
+    --text: #e8ddd0;
+    --text2: #a89880;
+    --text3: #6b5d50;
+    --border: #3d3028;
+    --correct: #4a7c59;
+    --correct-bg: #1e2d22;
+    --wrong: #8b1a1a;
+    --wrong-bg: #2d1515;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    background: linear-gradient(135deg, #0d0a07 0%, #1a1410 100%);
+    border-bottom: 1px solid var(--accent);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: var(--accent2);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .progress-bar-wrap {
+    height: 3px;
+    background: var(--surface2);
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── Page ─── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ─── Intro card ─── */
+  .intro-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    right: 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: var(--accent);
+    opacity: 0.08;
+    line-height: 1;
+  }
+  .intro-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .intro-subtitle {
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .intro-card p {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .intro-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .intro-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ─── Video embed ─── */
+  .video-wrap {
+    margin-bottom: 40px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 16/9;
+  }
+  .video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .video-note {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text3);
+    margin-top: 10px;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  /* ─── Section ─── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible { opacity: 1; transform: none; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .section-num {
+    background: var(--accent2);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .section-time {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    background: var(--surface2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .section-instruction {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    padding-left: 46px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ─── Ex 1 — Fill in the blanks ─── */
+  .fitb-text {
+    font-size: 15px;
+    line-height: 2.2;
+    color: var(--text);
+    padding: 20px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .fitb-input {
+    display: inline-block;
+    min-width: 110px;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    padding: 0 4px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .fitb-input:focus { border-color: var(--text); }
+  .fitb-input.correct { border-color: var(--correct); color: var(--correct); }
+  .fitb-input.wrong { border-color: var(--wrong); color: var(--wrong); }
+
+  /* ─── Ex 2 — MCQ ─── */
+  .mcq-item { margin-bottom: 18px; }
+  .mcq-question { font-size: 15px; color: var(--text); margin-bottom: 10px; font-weight: 500; }
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; }
+  .mcq-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .mcq-option:hover { border-color: var(--accent); color: var(--text); }
+  .mcq-option.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); color: var(--text); }
+  .mcq-option.correct { border-color: var(--correct); background: var(--correct-bg); color: #6fcf97; }
+  .mcq-option.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: #eb5757; }
+  .mcq-option input { display: none; }
+  .mcq-dot {
+    width: 16px; height: 16px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mcq-option.selected .mcq-dot::after,
+  .mcq-option.correct .mcq-dot::after {
+    content: '';
+    width: 8px; height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+  }
+
+  /* ─── Ex 3 — Open question ─── */
+  .open-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    padding: 14px 16px;
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+  .open-textarea:focus { border-color: var(--accent); }
+  .open-hint {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ─── Ex 4 — French question ─── */
+  .french-label {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* ─── Ex 5 — Table ─── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .compare-col {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .compare-col-header {
+    padding: 10px 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    background: rgba(201,169,110,0.06);
+  }
+  .compare-col-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .compare-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    padding: 6px 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .compare-input::placeholder { color: var(--text3); font-style: italic; }
+  .compare-input:focus { border-color: var(--accent); }
+  .compare-sublabel {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-bottom: 2px;
+  }
+
+  /* ─── Ex 6 ─── */
+  /* reuses open-textarea */
+
+  /* ─── Check button ─── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .btn-check {
+    background: var(--accent2);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.12s;
+    letter-spacing: 0.03em;
+  }
+  .btn-check:hover { background: #a01f1f; }
+  .btn-check:active { transform: scale(0.97); }
+  .score-chip {
+    font-size: 14px;
+    color: var(--text2);
+    display: none;
+  }
+  .score-chip span { color: var(--accent); font-weight: 600; }
+
+  /* ─── Feedback ─── */
+  .feedback-inline {
+    font-size: 13px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback-inline.ok { background: var(--correct-bg); color: #6fcf97; border: 1px solid var(--correct); }
+  .feedback-inline.err { background: var(--wrong-bg); color: #eb5757; border: 1px solid var(--wrong); }
+
+  /* ─── Final score ─── */
+  .final-block {
+    background: linear-gradient(135deg, var(--accent2) 0%, #5c1111 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    color: #fff;
+    text-align: center;
+    margin-top: 40px;
+    display: none;
+    border: 1px solid var(--accent);
+  }
+  .final-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .final-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--accent);
+    margin: 16px 0;
+  }
+  .final-sub { font-size: 14px; opacity: 0.6; }
+  .final-msg { margin-top: 16px; font-size: 15px; opacity: 0.85; font-style: italic; }
+
+  /* ─── Divider ─── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 600px) {
+    .page { padding: 24px 14px 60px; }
+    .intro-card { padding: 24px 20px; }
+    .section { padding: 20px 18px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .fitb-input { min-width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">The Byronic Hero</div>
+      <div class="header-sub">Oral Comprehension Activity</div>
+    </div>
+    <div class="header-badge">A2–B1</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- Intro -->
+  <div class="intro-card">
+    <h1>Before you watch</h1>
+    <div class="intro-subtitle">0:00 – 6:08 · Unit 5, Video 1</div>
+    <p>You are going to watch a video about the <strong>Byronic hero</strong> — a character archetype that has shaped literature, film and video games for two centuries. Read all the questions carefully before pressing play.</p>
+    <div class="intro-tags">
+      <span class="intro-tag">6 exercises</span>
+      <span class="intro-tag">Instant feedback</span>
+      <span class="intro-tag">Some questions in French</span>
+    </div>
+  </div>
+
+  <!-- Video -->
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/t4wNZDIH8d8?end=368" title="The Byronic Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <p class="video-note">⏱ Watch from 0:00 to 6:08 only.</p>
+
+  <!-- Ex 1 — Fill in the blanks -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Fill in the blanks</div>
+      <span class="section-time">0:00 – 0:39</span>
+    </div>
+    <div class="section-instruction">Complete the quotation from the video with the missing words.</div>
+
+    <div class="fitb-text" id="fitb">
+      Edward Cullen, Han Solo, Killmonger, Lestat. What do all these
+      <input class="fitb-input" data-answer="characters" placeholder="________" id="f1"> have in common besides being heartthrobs? They share a
+      <input class="fitb-input" data-answer="common" placeholder="________" id="f2"> ancestor: the Byronic hero. Brooding, sensual, violent, a little too single-<input class="fitb-input" data-answer="minded" placeholder="________" id="f3">, the Byronic hero has been a
+      <input class="fitb-input" data-answer="staple" placeholder="________" id="f4"> in literature dating back to the 19th century. But the
+      <input class="fitb-input" data-answer="archetype" placeholder="________" id="f5"> is all over film, TV and even video games. I see you, Cloud Strife, all sad and angsty with your giant sword. Clocked!<br><br>
+      But what does it <input class="fitb-input" data-answer="mean" placeholder="________" id="f6"> to be a Byronic hero? And who was the man that helped create this
+      <input class="fitb-input" data-answer="iconic" placeholder="________" id="f7"> archetype? Let's get into the myth, the man and the literary
+      <input class="fitb-input" data-answer="legacy" placeholder="________" id="f8">.
+    </div>
+
+    <div class="check-row">
+      <button class="btn-check" onclick="checkFITB()">Check my answers</button>
+      <div class="score-chip" id="score1"></div>
+    </div>
+  </div>
+
+  <!-- Ex 2 — MCQ -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Multiple choice</div>
+      <span class="section-time">1:25 – 2:15</span>
+    </div>
+    <div class="section-instruction">Choose the correct answer for each question.</div>
+
+    <div class="mcq-item" id="mcq1">
+      <div class="mcq-question">The Byronic hero is really…</div>
+      <div class="mcq-options">
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq1',false)">
+          <div class="mcq-dot"></div> a) always a villain
+        </label>
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq1',true)">
+          <div class="mcq-dot"></div> b) a precursor of the anti-hero
+        </label>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="mcq-item" id="mcq2">
+      <div class="mcq-question">Lord Byron was born into a rich, loving and supportive family.</div>
+      <div class="mcq-options">
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq2',false)">
+          <div class="mcq-dot"></div> a) True
+        </label>
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq2',true)">
+          <div class="mcq-dot"></div> b) False
+        </label>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="mcq-item" id="mcq3">
+      <div class="mcq-question">Lord Byron exercised a lot and…</div>
+      <div class="mcq-options">
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq3',false)">
+          <div class="mcq-dot"></div> a) was very proud of his looks
+        </label>
+        <label class="mcq-option" onclick="selectMCQ(this,'mcq3',true)">
+          <div class="mcq-dot"></div> b) had a physical defect
+        </label>
+      </div>
+    </div>
+
+    <div class="check-row">
+      <button class="btn-check" onclick="checkMCQ()">Check my answers</button>
+      <div class="score-chip" id="score2"></div>
+    </div>
+  </div>
+
+  <!-- Ex 3 — Open question (English) -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">In your own words</div>
+    </div>
+    <div class="section-instruction">Peter L. Thorslev says that the Byronic hero "is a Romantic rebel. He chooses his values in open defiance of the codes of society." What does this mean? Can you find an example from a film you have seen or a book you have read?</div>
+    <textarea class="open-textarea" id="ex3" placeholder="Write your answer here... (2–4 sentences)"></textarea>
+    <p class="open-hint">💡 There is no single right answer — focus on expressing your idea clearly.</p>
+  </div>
+
+  <!-- Ex 4 — French question -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Caroline Lamb</div>
+      <span class="section-time">2:15 – 3:00</span>
+    </div>
+    <div class="section-instruction">
+      <span class="french-label">Répondez en français</span><br>
+      Que s'est-il passé entre Lord Byron et Caroline Lamb ?
+    </div>
+    <textarea class="open-textarea" id="ex4" placeholder="Écrivez votre réponse ici..."></textarea>
+    <p class="open-hint">💡 Décrivez leur relation en 2 ou 3 phrases.</p>
+  </div>
+
+  <!-- Ex 5 — Table -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Two kinds of Byronic heroes</div>
+      <span class="section-time">3:35 – 5:08</span>
+    </div>
+    <div class="section-instruction">Write down the adjectives and examples given in the video to distinguish the two types.</div>
+
+    <p style="font-size:13px;color:var(--text3);margin-bottom:16px;font-style:italic;">Write down the words and names you hear — there are no trick questions here.</p>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-col-header">🦇 Gothic</div>
+        <div class="compare-col-body">
+          <div class="compare-sublabel">Adjectives / descriptions</div>
+          <input class="compare-input" placeholder="e.g. dark…">
+          <input class="compare-input" placeholder="…">
+          <input class="compare-input" placeholder="…">
+          <div class="compare-sublabel">Character examples</div>
+          <input class="compare-input" placeholder="e.g. Victor Frankenstein…">
+          <input class="compare-input" placeholder="…">
+          <input class="compare-input" placeholder="…">
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-col-header">🌹 Romantic (19th c.)</div>
+        <div class="compare-col-body">
+          <div class="compare-sublabel">Adjectives / descriptions</div>
+          <input class="compare-input" placeholder="e.g. solitary…">
+          <input class="compare-input" placeholder="…">
+          <input class="compare-input" placeholder="…">
+          <div class="compare-sublabel">Character examples</div>
+          <input class="compare-input" placeholder="e.g. Rochester…">
+          <input class="compare-input" placeholder="…">
+          <input class="compare-input" placeholder="…">
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text2);">
+      <strong style="color:var(--accent);">Model answers (check after watching)</strong><br><br>
+      <strong>Gothic:</strong> dark, hopeless, tormented — Victor Frankenstein, Captain Ahab, Erik (Phantom of the Opera), Edmond Dantès, Megamind<br><br>
+      <strong>Romantic:</strong> solitary, monstrous/dark appearance but alluring personality — Rochester (Jane Eyre), Heathcliff (Wuthering Heights)
+    </div>
+  </div>
+
+  <!-- Ex 6 — Moral grey -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">The "moral grey" area</div>
+      <span class="section-time">5:08 – 5:45</span>
+    </div>
+    <div class="section-instruction">
+      <span class="french-label">Vous pouvez répondre en français</span><br>
+      Why does the speaker say that the Byronic hero inhabits a "moral grey" area?
+    </div>
+    <textarea class="open-textarea" id="ex6" placeholder="Write your answer here… / Écrivez votre réponse ici…"></textarea>
+  </div>
+
+  <!-- Final score -->
+  <div class="final-block" id="finalBlock">
+    <h2>Activity complete!</h2>
+    <div class="final-num" id="finalNum">—</div>
+    <div class="final-sub">out of 11 checked answers</div>
+    <div class="final-msg" id="finalMsg"></div>
+  </div>
+
+</main>
+
+<script>
+  // ── Scroll reveal ──
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  sections.forEach(s => observer.observe(s));
+
+  // ── Progress bar ──
+  let checked = { ex1: false, ex2: false };
+  function updateProgress() {
+    const done = Object.values(checked).filter(Boolean).length;
+    document.getElementById('progressBar').style.width = (done / 2 * 60) + '%';
+    if (done === 2) showFinal();
+  }
+
+  // ── Ex 1: Fill in the blanks ──
+  function checkFITB() {
+    const inputs = document.querySelectorAll('.fitb-input');
+    let correct = 0;
+    inputs.forEach(inp => {
+      const val = inp.value.trim().toLowerCase();
+      const ans = inp.dataset.answer.toLowerCase();
+      inp.classList.remove('correct','wrong');
+      if (val === ans) { inp.classList.add('correct'); correct++; }
+      else { inp.classList.add('wrong'); }
+    });
+    const chip = document.getElementById('score1');
+    chip.style.display = 'block';
+    chip.innerHTML = `Score: <span>${correct}/${inputs.length}</span>`;
+    checked.ex1 = true;
+    updateProgress();
+  }
+
+  // ── Ex 2: MCQ ──
+  const mcqState = {};
+  function selectMCQ(el, id, isCorrect) {
+    if (mcqState[id] && mcqState[id].locked) return;
+    const container = document.getElementById(id);
+    container.querySelectorAll('.mcq-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    if (!mcqState[id]) mcqState[id] = {};
+    mcqState[id].selected = el;
+    mcqState[id].correct = isCorrect;
+  }
+
+  function checkMCQ() {
+    let correct = 0;
+    ['mcq1','mcq2','mcq3'].forEach(id => {
+      const state = mcqState[id];
+      if (!state || !state.selected) return;
+      state.locked = true;
+      if (state.correct) {
+        state.selected.classList.add('correct');
+        correct++;
+      } else {
+        state.selected.classList.add('wrong');
+        // highlight correct
+        const opts = document.getElementById(id).querySelectorAll('.mcq-option');
+        opts.forEach(o => {
+          if (!o.classList.contains('wrong') && !o.classList.contains('selected')) {
+            // find the correct one by checking onclick
+            if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) {
+              o.classList.add('correct');
+            }
+          }
+        });
+      }
+    });
+    const chip = document.getElementById('score2');
+    chip.style.display = 'block';
+    chip.innerHTML = `Score: <span>${correct}/3</span>`;
+    checked.ex2 = true;
+    updateProgress();
+  }
+
+  // ── Final ──
+  function showFinal() {
+    const s1 = document.getElementById('score1').textContent;
+    const s2 = document.getElementById('score2').textContent;
+    const n1 = s1 ? parseInt(s1.match(/\d+/)[0]) : 0;
+    const n2 = s2 ? parseInt(s2.match(/\d+/)[0]) : 0;
+    const total = n1 + n2;
+    const max = 11;
+    const block = document.getElementById('finalBlock');
+    block.style.display = 'block';
+    document.getElementById('finalNum').textContent = `${total}/${max}`;
+    const pct = total / max;
+    let msg = pct >= 0.85 ? "Outstanding work — Lord Byron would be proud. Or jealous." :
+              pct >= 0.65 ? "Good effort! A few answers to review, but the Byronic spirit is strong." :
+              "Keep watching, keep listening — every great anti-hero had a rough start.";
+    document.getElementById('finalMsg').textContent = msg;
+    document.getElementById('progressBar').style.width = '100%';
+    block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>
