@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Activity – Bram Stoker's Dracula</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0b0f;
+    --surface: #16111a;
+    --surface2: #1e1724;
+    --border: #2e2438;
+    --border-light: #3d3050;
+    --text: #e8e0f0;
+    --text2: #a898c0;
+    --text3: #6a5a80;
+    --red: #c0392b;
+    --red-light: #e74c3c;
+    --red-glow: rgba(192,57,43,0.15);
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --green: #27ae60;
+    --green-light: #2ecc71;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.7;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(120,30,60,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(60,20,80,0.15) 0%, transparent 60%);
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .header-meta {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-light);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  h1 em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+  .header-sub {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 24px;
+  }
+  .tag-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+  .tag-level { background: rgba(192,57,43,0.18); color: var(--red-light); border: 1px solid rgba(192,57,43,0.3); }
+  .tag-theme { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+
+  /* ── Video link ── */
+  .video-block {
+    max-width: 760px;
+    margin: 0 auto 0;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .video-icon {
+    width: 44px; height: 44px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .video-icon svg { fill: white; }
+  .video-text { flex: 1; }
+  .video-text p { font-size: 13px; color: var(--text2); margin-bottom: 2px; }
+  .video-text a {
+    color: var(--gold-light);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .video-text a:hover { text-decoration: underline; }
+
+  /* ── Note box ── */
+  .note-box {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    background: rgba(201,168,76,0.07);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    font-size: 13px;
+    color: var(--gold);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .note-box strong { color: var(--gold-light); }
+
+  /* ── Main layout ── */
+  main { max-width: 760px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 40px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--red-light);
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-score {
+    margin-left: auto;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  /* ── Score tracker ── */
+  .score-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14,11,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .score-label { color: var(--text2); }
+  .score-val { font-weight: 700; color: var(--gold-light); font-size: 15px; }
+  .score-progress { flex: 1; margin: 0 16px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .score-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  /* ── Fill in the blanks ── */
+  .fitb-text {
+    font-size: 15px;
+    line-height: 2.2;
+    color: var(--text);
+  }
+  .blank-wrap { display: inline-flex; flex-direction: column; align-items: center; vertical-align: bottom; margin: 0 3px; }
+  .blank-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border-light);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 2px 6px;
+    width: 130px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .blank-input:focus { border-color: var(--gold); }
+  .blank-input.correct { border-color: var(--green); color: var(--green-light); }
+  .blank-input.wrong { border-color: var(--red); color: var(--red-light); }
+  .blank-answer {
+    font-size: 11px;
+    color: var(--green);
+    display: none;
+    margin-top: 2px;
+  }
+  .blank-input.wrong + .blank-answer { display: block; }
+  .fitb-actions { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+
+  /* ── MCQ ── */
+  .mcq-item { margin-bottom: 20px; }
+  .mcq-q {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .mcq-q strong { color: var(--gold-light); }
+  .mcq-opts { display: flex; flex-direction: column; gap: 8px; }
+  .mcq-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    color: var(--text2);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mcq-opt:hover:not(:disabled) { border-color: var(--gold); color: var(--text); }
+  .mcq-opt.correct { background: rgba(39,174,96,0.12); border-color: var(--green); color: var(--green-light); }
+  .mcq-opt.wrong { background: rgba(192,57,43,0.12); border-color: var(--red); color: var(--red-light); }
+  .mcq-opt:disabled { cursor: default; }
+  .opt-letter {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text3);
+    min-width: 18px;
+  }
+
+  /* ── Open questions ── */
+  .open-q { margin-bottom: 24px; }
+  .open-q-label {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .open-q-label .q-lang {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    margin-left: 8px;
+    font-weight: 700;
+  }
+  .open-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 90px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .open-textarea:focus { border-color: var(--gold); }
+  .suggested-answer {
+    margin-top: 10px;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--gold);
+    display: none;
+  }
+  .suggested-answer strong { display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 6px; }
+  .suggested-answer p { color: var(--text2); line-height: 1.6; }
+
+  /* ── Transcript ── */
+  .transcript-toggle {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 20px;
+    color: var(--text2);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+  .transcript-toggle:hover { border-color: var(--border-light); color: var(--text); }
+  .transcript-toggle .arrow { transition: transform 0.3s; }
+  .transcript-toggle.open .arrow { transform: rotate(180deg); }
+  .transcript-body {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 20px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+  .transcript-body p { margin-bottom: 12px; }
+  .transcript-body p:last-child { margin-bottom: 0; }
+
+  /* ── Moodle notice ── */
+  .moodle-notice {
+    margin-top: 12px;
+    background: rgba(60,80,120,0.12);
+    border: 1px solid rgba(100,140,200,0.2);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #90b0e0;
+    line-height: 1.6;
+  }
+  .moodle-notice strong { color: #b0d0ff; }
+
+  /* ── Buttons ── */
+  .btn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.18s;
+  }
+  .btn-primary {
+    background: var(--red);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--red-light); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text2);
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-reveal {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  .btn-reveal:hover { background: rgba(201,168,76,0.08); }
+
+  /* ── Score summary ── */
+  .score-summary {
+    display: none;
+    margin-top: 40px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  .score-summary h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .score-summary .big-score {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    color: var(--text);
+    margin: 8px 0;
+  }
+  .score-summary p { color: var(--text2); font-size: 14px; }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text3);
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--text3); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-meta">2024–25 · L1S2 English LANSAD · Listening Comprehension</div>
+    <h1>Bram Stoker's <em>Dracula</em></h1>
+    <p class="header-sub">Gothic & Horror Literature · Oral Comprehension Activity</p>
+    <div class="tag-row">
+      <span class="tag tag-level">A2–B2</span>
+      <span class="tag tag-theme">Gothic Literature</span>
+      <span class="tag tag-theme">Vampires</span>
+      <span class="tag tag-theme">19th Century</span>
+    </div>
+  </div>
+</header>
+
+<div class="video-block">
+  <div class="video-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </div>
+  <div class="video-text">
+    <p>Watch the video before answering – up to <strong>03:21</strong></p>
+    <a href="https://www.youtube.com/watch?v=Qc93hC9WAfo" target="_blank">▶ Open video on YouTube →</a>
+  </div>
+</div>
+
+<div class="note-box">
+  <span>📝</span>
+  <span><strong>Note:</strong> For open questions (exercises 3–9), write proper sentences (subject + verb + complement) in the same language as the question, using your own words.</span>
+</div>
+
+<div class="score-bar">
+  <span class="score-label">Score</span>
+  <div class="score-progress"><div class="score-fill" id="scoreFill"></div></div>
+  <span class="score-val" id="scoreDisplay">0 / 20</span>
+</div>
+
+<main>
+
+  <!-- EXERCISE 1: Fill in the blanks -->
+  <div class="section" id="ex1">
+    <div class="section-header">
+      <span class="section-num">1</span>
+      <span class="section-title">Fill in the blanks</span>
+      <span class="section-score">/ 5 pts · 0.5 per blank</span>
+    </div>
+
+    <div class="fitb-text">
+      Stories of blood-sucking monsters are
+      <span class="blank-wrap"><input class="blank-input" data-answer="universal" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">universal</span></span>
+      and have been around for centuries. There's the Greek <em>lamiae</em>, the Chinese <em>jiangshi</em>, and the African <em>asanbosam</em>, to name a few. But let's focus on the one who has
+      <span class="blank-wrap"><input class="blank-input" data-answer="outlived" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">outlived</span></span>
+      them all, whose monstrous
+      <span class="blank-wrap"><input class="blank-input" data-answer="legend" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">legend</span></span>
+      lives among us even today — Count Dracula. The stories of blood-sucking monsters
+      <span class="blank-wrap"><input class="blank-input" data-answer="constantly" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">constantly</span></span>
+      shift to
+      <span class="blank-wrap"><input class="blank-input" data-answer="reflect" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">reflect</span></span>
+      the culture and issues of their time. For instance, there are real-life diseases with symptoms
+      <span class="blank-wrap"><input class="blank-input" data-answer="similar" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">similar</span></span>
+      to the traits found in some vampires: sensitivity to light, a
+      <span class="blank-wrap"><input class="blank-input" data-answer="sudden" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">sudden</span></span>
+      decline in health, even the
+      <span class="blank-wrap"><input class="blank-input" data-answer="desire" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">desire</span></span>
+      to bite other people. So, before we
+      <span class="blank-wrap"><input class="blank-input" data-answer="understood" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">understood</span></span>
+      concepts like viruses and germs, creating a
+      <span class="blank-wrap"><input class="blank-input" data-answer="fictional" placeholder="…" oninput="autoSize(this)"><span class="blank-answer">fictional</span></span>
+      explanation makes a lot of sense.
+    </div>
+
+    <div class="fitb-actions">
+      <button class="btn btn-primary" onclick="checkFITB()">Check answers</button>
+      <button class="btn btn-ghost" onclick="resetFITB()">Reset</button>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 2: MCQ -->
+  <div class="section" id="ex2">
+    <div class="section-header">
+      <span class="section-num">2</span>
+      <span class="section-title">Multiple Choice Questions</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+
+    <div class="mcq-item">
+      <div class="mcq-q">According to the narrator, the "typical western vampire" is a metaphor for:</div>
+      <div class="mcq-opts">
+        <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a)</span> humans' ability to be violent in real life</button>
+        <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">b)</span> the violent effects of disease in the 19th century</button>
+      </div>
+    </div>
+
+    <div class="mcq-item">
+      <div class="mcq-q">When did the word "vampire" first appear in English literature?</div>
+      <div class="mcq-opts">
+        <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">a)</span> In the 18th century</button>
+        <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">b)</span> When <em>Dracula</em> was published</button>
+      </div>
+    </div>
+
+    <div class="mcq-item">
+      <div class="mcq-q">Where is Bram Stoker from?</div>
+      <div class="mcq-opts">
+        <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a)</span> England</button>
+        <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">b)</span> Ireland</button>
+      </div>
+    </div>
+
+    <div class="mcq-item">
+      <div class="mcq-q">When did Stoker first come up with the name "Dracula"?</div>
+      <div class="mcq-opts">
+        <button class="mcq-opt" onclick="checkMCQ(this,'wrong')"><span class="opt-letter">a)</span> When he first outlined the novel</button>
+        <button class="mcq-opt" onclick="checkMCQ(this,'correct')"><span class="opt-letter">b)</span> Years later, after reading a book</button>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 3: Open – four inspirations -->
+  <div class="section" id="ex3">
+    <div class="section-header">
+      <span class="section-num">3</span>
+      <span class="section-title">Four sources of inspiration</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">List four things that inspired Bram Stoker when writing <em>Dracula</em>. (If you mention a name or book title, you don't need to spell it perfectly.)</p>
+
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="a) …&#10;b) …&#10;c) …&#10;d) …" rows="5"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;">
+        <button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button>
+      </div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Any four of: Emily Gerard's book <em>The Land Beyond the Forest</em> (Transylvanian superstitions); Sabine Baring-Gould's <em>The Book of Were-Wolves</em>; newspaper articles he clipped; tombstone inscriptions; ship captains' logbooks; Victorian theatre; his friend and employer Henry Irving; William Wilkinson's book <em>An Account of the Principalities of Wallachia and Moldavia</em> (where he found the name "Dracula").</p>
+      </div>
+    </div>
+    <div class="moodle-notice">💡 <strong>Note:</strong> On the Moodle version of this activity, your written answers are evaluated automatically by an AI that gives you personalised feedback. This version shows a suggested answer for self-correction.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 4: Henry Irving -->
+  <div class="section" id="ex4">
+    <div class="section-header">
+      <span class="section-num">4</span>
+      <span class="section-title">Henry Irving</span>
+      <span class="section-score">/ 1.5 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">Who was Henry Irving? What was his relationship to Bram Stoker?</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Henry Irving was a Victorian theatre actor. He was Bram Stoker's friend and employer — Stoker worked for him and was influenced by him when writing <em>Dracula</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 5: Aristocracy -->
+  <div class="section" id="ex5">
+    <div class="section-header">
+      <span class="section-num">5</span>
+      <span class="section-title">Dracula and the aristocracy</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">According to the narrator, Count Dracula is a member of the aristocracy. Was that a common feature of Gothic literature? What are some examples of the Count's aristocracy?</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Yes, aristocratic characters were a common feature of Gothic literature. Dracula's aristocracy is shown through his dramatic castle setting and his great wealth of "old gold."</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 6: Classic vampiric traits -->
+  <div class="section" id="ex6">
+    <div class="section-header">
+      <span class="section-num">6</span>
+      <span class="section-title">Classic vampiric traits</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">What are some of Count Dracula's <em>classic</em> vampiric traits? List at least four traits.</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Any four of: no reflection in mirrors; never eats or drinks; has enormous strength; ability to see in the dark; can turn others into the undead; has large canine teeth and pointed nails; is vulnerable to garlic and wooden stakes.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 7: Werewolf trait -->
+  <div class="section" id="ex7">
+    <div class="section-header">
+      <span class="section-num">7</span>
+      <span class="section-title">The werewolf influence</span>
+      <span class="section-score">/ 1.5 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">What trait, inspired by werewolves, did Stoker give Count Dracula?</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Stoker gave Dracula the ability to shapeshift — he can transform into a bat, a wolf, or mist. This was a first for vampires, inspired by werewolf legends.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 8: What made Dracula different -->
+  <div class="section" id="ex8">
+    <div class="section-header">
+      <span class="section-num">8</span>
+      <span class="section-title">A new kind of vampire</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">Besides the werewolf influence, what made Count Dracula <em>different</em> from previous depictions of vampires?</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Count Dracula was the first vampire to combine <em>all</em> the classic vampiric traits together in one character. Stoker gathered existing literary and folklore traits and merged them into a single, definitive figure.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EXERCISE 9: Publication -->
+  <div class="section" id="ex9">
+    <div class="section-header">
+      <span class="section-num">9</span>
+      <span class="section-title">Writing and publication</span>
+      <span class="section-score">/ 2 pts</span>
+    </div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px;">How many years did Stoker work on <em>Dracula</em>? What year was it published? Was it popular when it came out?</p>
+    <div class="open-q">
+      <textarea class="open-textarea" placeholder="Write your answer here…"></textarea>
+      <div style="margin-top:8px;"><button class="btn btn-reveal" onclick="toggleAnswer(this)">Show suggested answer</button></div>
+      <div class="suggested-answer">
+        <strong>Suggested answer</strong>
+        <p>Stoker worked on <em>Dracula</em> for seven years (he started outlining it in 1890). It was published in 1897. Yes, it was a critical and popular success when it came out.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TRANSCRIPT -->
+  <div class="section">
+    <button class="transcript-toggle" id="transcriptBtn" onclick="toggleTranscript()">
+      <span>📜 Read the transcript</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="transcript-body" id="transcriptBody">
+      <p>Stories of blood-sucking monsters are universal and have been around for centuries. There's the Greek <em>lamiae</em>, the Chinese <em>jiangshi</em>, and the African <em>asanbosam</em> to name a few. But let's focus on the one who has outlived them all, whose monstrous legend lives among us even today — Count Dracula.</p>
+      <p>The stories of blood-sucking monsters constantly shift to reflect the culture and issues of their time. For instance, there are real-life diseases with symptoms similar to the traits found in some vampires: sensitivity to light, a sudden decline in health, even the desire to bite other people. So, before we understood concepts like viruses and germs, creating a fictional explanation makes a lot of sense.</p>
+      <p>Also, if you look at the sharp teeth and long fingernails of the typical western vampire, and how they use these to attack their prey, the vampire becomes a metaphor for a human's capacity for great violence. Vampires often appear humanoid and primarily attack humans, so associating their violent attacks with the violence we see in the real world is easy — because both predator and prey look like us.</p>
+      <p>We can find this monster in folklore, legends, and literature long before the word "vampire" appears for the first time in English around 1730. However, it wasn't until the Irish author Abraham 'Bram' Stoker wrote his 1897 novel <em>Dracula</em> that the characteristics of this creature became widely recognizable in the modern world.</p>
+      <p>Stoker actually started outlining the novel in 1890, years before he even encountered the name 'Dracula.' We know this because he wrote notes — a lot of notes. Emily Gerard's book of Transylvanian superstitions <em>The Land Beyond the Forest</em> and Reverend Sabine Baring-Gould's <em>The Book of Were-Wolves</em> were two books which clearly inspired him. He clipped newspaper articles, recorded tombstone inscriptions, and transcribed ship captains' logbooks to make his narrative more realistic. He was also influenced by Victorian theatre, including his friend and employer — the actor Henry Irving.</p>
+      <p>It is most likely that he read the name "Dracula" for the first time in William Wilkinson's book <em>An Account of the Principalities of Wallachia and Moldavia</em> while on vacation with his family, after he had already started writing the story.</p>
+      <p>In tradition with a lot of Gothic literature, Dracula is a member of the aristocracy, which also explains the dramatic castle setting and the Count's great wealth of "old gold." In his memos, Stoker combined many existing literary and folklore traits that we now see as typical vampire characteristics: no reflection in mirrors, never eats or drinks, has enormous strength, and the ability to see in the dark. It was already accepted that vampires could turn others into the undead, have large canine teeth and pointed nails, and be vulnerable to garlic and wooden stakes. But Count Dracula was the first vampire to have all of these traits.</p>
+      <p>And influenced by werewolf legends, Stoker gives Dracula the ability to shapeshift into a bat, a wolf, or mist — a first for vampires! Seven years of making vampire notes paid off, and when the book was finally published, it was a critical and popular success.</p>
+    </div>
+  </div>
+
+  <!-- Score summary -->
+  <div class="score-summary" id="scoreSummary">
+    <h2>Activity complete</h2>
+    <div class="big-score" id="bigScore">–</div>
+    <p>Exercises 1 and 2 have been scored automatically.<br>For exercises 3–9, compare your answers with the suggested answers above.</p>
+  </div>
+
+</main>
+
+<footer>
+  <a href="index.html">← Back to all activities</a> &nbsp;·&nbsp;
+  F-X Priour · English LANSAD · Listening Activities · <a href="https://github.com/FxPriour/listening-activities" target="_blank">GitHub</a>
+</footer>
+
+<script>
+  // ── Score tracking ──
+  let totalAuto = 0;
+  const MAX_AUTO = 7; // 5 (FITB) + 2 (MCQ)
+
+  function updateScore(delta) {
+    totalAuto = Math.max(0, Math.min(MAX_AUTO, totalAuto + delta));
+    document.getElementById('scoreDisplay').textContent = totalAuto + ' / ' + MAX_AUTO + ' (auto)';
+    document.getElementById('scoreFill').style.width = (totalAuto / MAX_AUTO * 100) + '%';
+  }
+
+  // ── FITB ──
+  function normalize(s) {
+    return s.trim().toLowerCase().replace(/[^a-z]/g, '');
+  }
+
+  function checkFITB() {
+    const inputs = document.querySelectorAll('#ex1 .blank-input');
+    inputs.forEach(inp => {
+      inp.classList.remove('correct', 'wrong');
+      const ans = normalize(inp.value);
+      const expected = normalize(inp.dataset.answer);
+      if (ans === expected) {
+        inp.classList.add('correct');
+      } else {
+        inp.classList.add('wrong');
+      }
+    });
+    recalcFITB();
+  }
+
+  function recalcFITB() {
+    const inputs = document.querySelectorAll('#ex1 .blank-input');
+    let correct = 0;
+    inputs.forEach(inp => { if (inp.classList.contains('correct')) correct++; });
+    const fitbScore = correct * 0.5;
+    // Update display
+    document.querySelector('#ex1 .section-score').textContent = '/ 5 pts · ' + fitbScore.toFixed(1) + ' scored';
+    updateScoreTotal();
+  }
+
+  function resetFITB() {
+    document.querySelectorAll('#ex1 .blank-input').forEach(inp => {
+      inp.value = '';
+      inp.classList.remove('correct','wrong');
+    });
+    document.querySelector('#ex1 .section-score').textContent = '/ 5 pts · 0.5 per blank';
+    updateScoreTotal();
+  }
+
+  function autoSize(inp) {
+    inp.style.width = Math.max(80, inp.value.length * 9 + 20) + 'px';
+  }
+
+  // ── MCQ ──
+  function checkMCQ(btn, result) {
+    const group = btn.closest('.mcq-item').querySelectorAll('.mcq-opt');
+    group.forEach(b => b.disabled = true);
+    btn.classList.add(result);
+    if (result === 'wrong') {
+      group.forEach(b => { if (!b.classList.contains('wrong')) b.classList.add('correct'); });
+    }
+    updateScoreTotal();
+  }
+
+  // ── Global score recalc ──
+  function updateScoreTotal() {
+    let fitb = 0;
+    document.querySelectorAll('#ex1 .blank-input.correct').forEach(() => fitb += 0.5);
+    let mcq = 0;
+    document.querySelectorAll('#ex2 .mcq-opt.correct').forEach(() => mcq += 0.5);
+    const total = fitb + mcq;
+    document.getElementById('scoreDisplay').textContent = total.toFixed(1) + ' / 7 (auto)';
+    document.getElementById('scoreFill').style.width = (total / 7 * 100) + '%';
+
+    const allMCQDone = document.querySelectorAll('#ex2 .mcq-opt:disabled').length > 0;
+    const allFITBChecked = document.querySelectorAll('#ex1 .blank-input.correct, #ex1 .blank-input.wrong').length > 0;
+    if (allMCQDone && allFITBChecked) {
+      document.getElementById('scoreSummary').style.display = 'block';
+      document.getElementById('bigScore').textContent = total.toFixed(1) + ' / 7';
+    }
+  }
+
+  // ── Reveal suggested answers ──
+  function toggleAnswer(btn) {
+    const box = btn.closest('.open-q').querySelector('.suggested-answer');
+    const visible = box.style.display === 'block';
+    box.style.display = visible ? 'none' : 'block';
+    btn.textContent = visible ? 'Show suggested answer' : 'Hide suggested answer';
+  }
+
+  // ── Transcript ──
+  function toggleTranscript() {
+    const btn = document.getElementById('transcriptBtn');
+    const body = document.getElementById('transcriptBody');
+    const open = btn.classList.toggle('open');
+    body.style.display = open ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>
