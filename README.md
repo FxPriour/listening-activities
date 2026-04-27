@@ -45,6 +45,12 @@ Activités HTML autonomes pour apprenants de niveau A2–B2. Aucune installation
 
 ---
 
+## Related repository / Dépôt associé
+
+- 📖 [reading-activities](https://github.com/FxPriour/reading-activities) – Reading comprehension activities / Activités de compréhension écrite
+
+---
+
 ## About · À propos
 
 **François-Xavier Priour** — certified English instructor (CAPES), bilingual EN/FR translator, dual Moodle HQ certified (Admin + Teacher, 2020). Teaching at French universities and professional training organisations since 2013, including a 13-year tenure as Research Associate at INSEAD Fontainebleau.
